@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Produto;
+use Khill\Lavacharts\Lavacharts;
 
 class ProdutoController extends Controller
 {
@@ -92,7 +93,35 @@ class ProdutoController extends Controller
      */
     public function show($id)
     {
+        $dados = $this->produto->all();
+        //dd ($dados->category);
         
+        $categorys = ['eletronicos', 'moveis', 'limpeza', 'banho']; 
+        $quantidade = array(0, 0, 0, 0);
+        foreach ($dados as $produto) {  
+            if($produto->category == $categorys[0])
+                $quantidade[0] +=1;
+            else if($produto->category == $categorys[1])
+                $quantidade[1] +=1;
+            else if($produto->category == $categorys[2])
+                $quantidade[2] +=1;
+            else if($produto->category == $categorys[3])
+                $quantidade[3] +=1; 
+        }
+
+        $lava = new Lavacharts();
+        $graficoCategorias =  $lava->DataTable();
+        $graficoCategorias->addStringColumn('Categoria')->addNumberColumn('Quantidade de produtos');
+        for($i = 1; $i <= count($quantidade); $i++){
+            $graficoCategorias->addRow([$categorys[$i-1], $quantidade[$i-1]]); 
+
+        }
+
+        $lava->ColumnChart('Quantidade de produtos por categoria', $graficoCategorias);
+       
+        return view('produtos/show', ['categoria' => $categorys, 'lava'=> $lava]);
+       
+
     }
 
     /**
