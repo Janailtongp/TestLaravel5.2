@@ -21,6 +21,8 @@ class ProdutoController extends Controller
 
     public function __construct(Produto $prod){
             $this->produto = $prod;
+            $this->middleware('auth');
+    
     }
 
     public function index()

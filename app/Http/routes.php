@@ -40,8 +40,12 @@ Route::group(['prefix'=> 'painel'], function(){
 	});
 });
 
-Route::get('/','SiteController@index');
+Route::get('/','Painel\ProdutoController@index');
 
 Route::get('/contato/{id?}','SiteController@contato');
 Route::get('/painel/tests','Painel\ProdutoController@tests');
 Route::resource('/painel/produtos', 'Painel\ProdutoController');
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

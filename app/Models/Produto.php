@@ -12,7 +12,7 @@ class Produto extends Model
     //protected $guarded = [];
     	public $rules =[
 			'name'		=> 'required|min:3|max:100',
-			'number'	=> 'required|numeric|digits_between:1,11',
+			'number'	=> 'required|unique:produtos|numeric|digits_between:1,11',
 			'category'	=> 'required',
 			'description'	=> 'min:3|max:1000',
 			'image' => 'required | mimes:jpeg,jpg,png | max:1024'
@@ -24,6 +24,7 @@ class Produto extends Model
             'name.max' 				=>'O campo nome deve possuir no máximo 100 caracteres',
             'number.required' 		=>'O campo número é obrigatório',
             'number.numeric' 		=>'O campo número deve possuir apenas números',
+            'number.unique'         =>'O número do produto já existe, tente outro.',
             'number.digits_between' =>'O campo número deve possuir entre 1 e  11 caracteres',
             'description.min' 		=>'O campo descrição deve possuir no mínimo 3 caracteres',
             'description.max' 		=>'O campo descrição deve possuir no máximo 1000 caracteres',
